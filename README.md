@@ -492,8 +492,7 @@ VIT Bhopal University
 GitHub:
 https://github.com/falco1-plk
 
-LinkedIn:
-(Add your LinkedIn URL)
+LinkedIn:https://www.linkedin.com/in/aishwary-jaiswal-8a9380394/
 
 ---
 
