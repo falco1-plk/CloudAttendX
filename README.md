@@ -429,17 +429,23 @@ Tested Modules:
 Examples:
 
 - Login Page
-   ![alt text](image.png)
+   <img width="1920" height="1020" alt="image" src="https://github.com/user-attachments/assets/aa34ac59-2e41-4134-9d55-07733ddd24a2" />
+
 - Dashboard
-![alt text](image-1.png)
+  <img width="802" height="697" alt="image" src="https://github.com/user-attachments/assets/4e994bc3-970f-4eb7-ac06-0016d015256f" />
+
 - Attendance Page
-![alt text](image-3.png)
+<img width="783" height="582" alt="image" src="https://github.com/user-attachments/assets/fcdbf291-8530-45af-ac57-0b371f5051ea" />
+
 - Leave Page
-![alt text](image-2.png)
+<img width="797" height="597" alt="image" src="https://github.com/user-attachments/assets/9cbad246-4fd0-4513-8a5e-df4ff8ecfbfb" />
+
 - Admin Dashboard
-![alt text](image-4.png)
+<img width="805" height="695" alt="image" src="https://github.com/user-attachments/assets/a1c72f49-6b1d-4013-b16b-da9441b00158" />
+
 - Analytics Dashboard
-![alt text](image-5.png)
+<img width="832" height="420" alt="image" src="https://github.com/user-attachments/assets/b5a36d9a-1534-4b5f-a31c-e1404d0143dc" />
+
 
 ---
 
