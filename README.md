@@ -357,7 +357,7 @@ Sensitive credentials are stored inside:
 ## Clone Repository
 
 ```bash
-git clone https://github.com/yourusername/cloudattendx.git
+git clone https://github.com/falco1-plk/cloudattendx.git
 ```
 
 ---
