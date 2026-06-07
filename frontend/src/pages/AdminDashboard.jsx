@@ -9,7 +9,7 @@ export default function AdminDashboard() {
 
   const fetchLeaves = async () => {
     try {
-      const res = await API.get("/admin/leaves");
+      const res = await API.get("/api/admin/leaves");
       setLeaves(res.data);
     } catch (error) {
       console.log(error);
@@ -19,7 +19,7 @@ export default function AdminDashboard() {
   const fetchAttendance = async () => {
     try {
       const res = await API.get(
-        "/admin/attendance"
+        "/api/admin/attendance"
       );
 
       setAttendance(res.data);
@@ -34,7 +34,7 @@ export default function AdminDashboard() {
   ) => {
     try {
       await API.put(
-        `/admin/leave/${id}`,
+        `/api/admin/leave/${id}`,
         { status }
       );
 
@@ -48,7 +48,7 @@ export default function AdminDashboard() {
     async (id, status) => {
       try {
         await API.put(
-          `/admin/attendance/${id}`,
+          `/api/admin/attendance/${id}`,
           { status }
         );
 
