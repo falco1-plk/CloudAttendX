@@ -4,36 +4,68 @@ import API from "../services/api";
 
 export default function AdminDashboard() {
   const [leaves, setLeaves] = useState([]);
+  const [attendance, setAttendance] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const fetchLeaves = async () => {
     try {
       const res = await API.get("/admin/leaves");
-
-      console.log("Leaves:", res.data);
-
       setLeaves(res.data);
     } catch (error) {
-      console.log("Error fetching leaves:", error);
-    } finally {
-      setLoading(false);
+      console.log(error);
     }
   };
 
-  const updateStatus = async (id, status) => {
+  const fetchAttendance = async () => {
     try {
-      await API.put(`/admin/leave/${id}`, {
-        status,
-      });
+      const res = await API.get(
+        "/admin/attendance"
+      );
+
+      setAttendance(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const updateLeaveStatus = async (
+    id,
+    status
+  ) => {
+    try {
+      await API.put(
+        `/admin/leave/${id}`,
+        { status }
+      );
 
       fetchLeaves();
     } catch (error) {
-      console.log("Error updating leave:", error);
+      console.log(error);
     }
   };
 
+  const updateAttendanceStatus =
+    async (id, status) => {
+      try {
+        await API.put(
+          `/admin/attendance/${id}`,
+          { status }
+        );
+
+        fetchAttendance();
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
   useEffect(() => {
-    fetchLeaves();
+    const loadData = async () => {
+      await fetchLeaves();
+      await fetchAttendance();
+      setLoading(false);
+    };
+
+    loadData();
   }, []);
 
   return (
@@ -42,23 +74,77 @@ export default function AdminDashboard() {
         Admin Dashboard
       </h1>
 
-      <div className="bg-white rounded-2xl shadow overflow-hidden">
+      {/* Stats */}
+      <div className="grid md:grid-cols-4 gap-6 mb-8">
+
+        <div className="bg-white p-6 rounded-2xl shadow">
+          <h3>Total Leaves</h3>
+          <h1 className="text-4xl font-bold text-blue-600">
+            {leaves.length}
+          </h1>
+        </div>
+
+        <div className="bg-white p-6 rounded-2xl shadow">
+          <h3>Pending Leaves</h3>
+          <h1 className="text-4xl font-bold text-orange-600">
+            {
+              leaves.filter(
+                (l) =>
+                  l.status === "Pending"
+              ).length
+            }
+          </h1>
+        </div>
+
+        <div className="bg-white p-6 rounded-2xl shadow">
+          <h3>Attendance Requests</h3>
+          <h1 className="text-4xl font-bold text-green-600">
+            {attendance.length}
+          </h1>
+        </div>
+
+        <div className="bg-white p-6 rounded-2xl shadow">
+          <h3>Pending Attendance</h3>
+          <h1 className="text-4xl font-bold text-red-600">
+            {
+              attendance.filter(
+                (a) =>
+                  a.status === "Pending"
+              ).length
+            }
+          </h1>
+        </div>
+
+      </div>
+
+      {/* Leave Requests */}
+
+      <div className="bg-white rounded-2xl shadow overflow-hidden mb-8">
+
+        <h2 className="text-2xl font-bold p-6">
+          Leave Requests
+        </h2>
+
         {loading ? (
-          <div className="p-8 text-center">
+          <div className="p-6">
             Loading...
-          </div>
-        ) : leaves.length === 0 ? (
-          <div className="p-8 text-center text-gray-500">
-            No Leave Requests Found
           </div>
         ) : (
           <table className="w-full">
             <thead className="bg-slate-100">
               <tr>
-                <th className="p-4">Employee</th>
-                <th className="p-4">Reason</th>
-                <th className="p-4">Status</th>
-                <th className="p-4">Actions</th>
+                <th className="p-4">
+                  Employee
+                </th>
+                <th className="p-4">
+                  Reason
+                </th>
+                <th className="p-4">
+                  Status
+                </th>
+                <th className="p-4">
+                  Actions
+                </th>
               </tr>
             </thead>
 
@@ -69,7 +155,7 @@ export default function AdminDashboard() {
                   className="border-b"
                 >
                   <td className="p-4">
-                    {leave.userId?.name || "Unknown"}
+                    {leave.userId?.name}
                   </td>
 
                   <td className="p-4">
@@ -81,9 +167,10 @@ export default function AdminDashboard() {
                   </td>
 
                   <td className="p-4 space-x-2">
+
                     <button
                       onClick={() =>
-                        updateStatus(
+                        updateLeaveStatus(
                           leave._id,
                           "Approved"
                         )
@@ -95,7 +182,7 @@ export default function AdminDashboard() {
 
                     <button
                       onClick={() =>
-                        updateStatus(
+                        updateLeaveStatus(
                           leave._id,
                           "Rejected"
                         )
@@ -104,6 +191,7 @@ export default function AdminDashboard() {
                     >
                       Reject
                     </button>
+
                   </td>
                 </tr>
               ))}
@@ -111,6 +199,98 @@ export default function AdminDashboard() {
           </table>
         )}
       </div>
+
+      {/* Attendance Requests */}
+
+      <div className="bg-white rounded-2xl shadow overflow-hidden">
+
+        <h2 className="text-2xl font-bold p-6">
+          Attendance Requests
+        </h2>
+
+        <table className="w-full">
+
+          <thead className="bg-slate-100">
+
+            <tr>
+              <th className="p-4">
+                Employee
+              </th>
+              <th className="p-4">
+                Date
+              </th>
+              <th className="p-4">
+                Status
+              </th>
+              <th className="p-4">
+                Actions
+              </th>
+            </tr>
+
+          </thead>
+
+          <tbody>
+
+            {attendance.map(
+              (record) => (
+                <tr
+                  key={record._id}
+                  className="border-b"
+                >
+                  <td className="p-4">
+                    {
+                      record.userId
+                        ?.name
+                    }
+                  </td>
+
+                  <td className="p-4">
+                    {new Date(
+                      record.date
+                    ).toLocaleDateString()}
+                  </td>
+
+                  <td className="p-4">
+                    {record.status}
+                  </td>
+
+                  <td className="p-4 space-x-2">
+
+                    <button
+                      onClick={() =>
+                        updateAttendanceStatus(
+                          record._id,
+                          "Approved"
+                        )
+                      }
+                      className="bg-green-600 text-white px-4 py-2 rounded"
+                    >
+                      Approve
+                    </button>
+
+                    <button
+                      onClick={() =>
+                        updateAttendanceStatus(
+                          record._id,
+                          "Rejected"
+                        )
+                      }
+                      className="bg-red-600 text-white px-4 py-2 rounded"
+                    >
+                      Reject
+                    </button>
+
+                  </td>
+                </tr>
+              )
+            )}
+
+          </tbody>
+
+        </table>
+
+      </div>
+
     </DashboardLayout>
   );
 }
