@@ -1,4 +1,7 @@
 const Leave = require("../models/leave");
+const Attendance = require("../models/Attendance");
+
+/* ---------------- LEAVES ---------------- */
 
 const getAllLeaves = async (req, res) => {
   try {
@@ -33,7 +36,50 @@ const updateLeaveStatus = async (req, res) => {
   }
 };
 
+/* ---------------- ATTENDANCE ---------------- */
+
+const getAllAttendance = async (
+  req,
+  res
+) => {
+  try {
+    const attendance =
+      await Attendance.find().populate(
+        "userId",
+        "name email"
+      );
+
+    res.json(attendance);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+const updateAttendanceStatus =
+  async (req, res) => {
+    try {
+      const attendance =
+        await Attendance.findByIdAndUpdate(
+          req.params.id,
+          {
+            status: req.body.status,
+          },
+          { new: true }
+        );
+
+      res.json(attendance);
+    } catch (error) {
+      res.status(500).json({
+        message: error.message,
+      });
+    }
+  };
+
 module.exports = {
   getAllLeaves,
   updateLeaveStatus,
+  getAllAttendance,
+  updateAttendanceStatus,
 };
