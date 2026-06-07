@@ -1,4 +1,4 @@
-const Leave = require("../models/leave");
+const Leave = require("../models/Leave");
 
 const applyLeave = async (req, res) => {
   try {
