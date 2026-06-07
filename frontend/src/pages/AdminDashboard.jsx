@@ -19,8 +19,7 @@ export default function AdminDashboard() {
     status
   ) => {
     try {
-      await API.put(
-        `/admin/leave/${id}`,
+      await API.put( `/admin/leave/${id}`,
         { status }
       );
 
@@ -57,7 +56,7 @@ export default function AdminDashboard() {
           </thead>
 
           <tbody>
-
+{console.log("Leaves:", leaves)}
             {leaves.map((leave) => (
               <tr key={leave._id}>
                 <td className="p-4">
