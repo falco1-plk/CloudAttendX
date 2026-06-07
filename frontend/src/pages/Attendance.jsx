@@ -7,7 +7,7 @@ import API from "../services/api";
 
   const fetchAttendance = async () => {
     try {
-      const res = await API.get("/attendance");
+      const res = await API.get("/api/attendance");
 
       setRecords(res.data);
     } catch (error) {
@@ -23,7 +23,7 @@ import API from "../services/api";
         localStorage.getItem("user")
       );
 
-      await API.post("/attendance", {
+      await API.post("/api/attendance", {
         userId: user.id,
         status: "Present",
         checkIn: "09:00 AM",

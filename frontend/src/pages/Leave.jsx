@@ -10,7 +10,7 @@ export default function Leave() {
 
   const fetchLeaves = async () => {
     try {
-      const res = await API.get("/leave");
+      const res = await API.get("/api/leave");
       setLeaves(res.data);
     } catch (error) {
       console.log(error);
@@ -23,7 +23,7 @@ export default function Leave() {
         localStorage.getItem("user")
       );
 
-      await API.post("/leave", {
+      await API.post("/api/leave", {
         userId: user.id,
         reason,
         fromDate,
